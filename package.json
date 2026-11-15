@@ -1,0 +1,19 @@
+{
+  "name": "sprintboard-workspace",
+  "version": "1.0.0",
+  "description": "Full Stack MERN SprintBoard Application",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail -n \"SERVER,CLIENT\" -c \"bgBlue.bold,bgGreen.bold\" \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "start": "cd server && npm start",
+    "build": "cd client && npm run build",
+    "seed": "cd server && npm run data:import",
+    "seed:destroy": "cd server && npm run data:destroy",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
