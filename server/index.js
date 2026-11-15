@@ -159,6 +159,48 @@ if (fs.existsSync(clientDistPath)) {
     }
     res.sendFile(path.join(clientDistPath, 'index.html'));
   });
+} else {
+  // Helpful fallback landing page if client/dist hasn't been built yet
+  app.get('/', (req, res) => {
+    res.status(200).send(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SprintBoard Server</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+          .card { background: #1e293b; padding: 36px; border-radius: 14px; max-width: 540px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+          h1 { margin-top: 0; color: #818cf8; font-size: 24px; font-weight: 700; }
+          p { color: #94a3b8; font-size: 14.5px; line-height: 1.6; margin: 12px 0; }
+          ul { color: #cbd5e1; font-size: 14px; line-height: 1.8; padding-left: 20px; margin: 16px 0; }
+          .actions { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+          .btn { display: inline-flex; align-items: center; justify-content: center; background: #6366f1; color: #fff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; transition: background 0.2s; }
+          .btn:hover { background: #4f46e5; }
+          .btn-outline { background: transparent; border: 1px solid #475569; color: #cbd5e1; }
+          .btn-outline:hover { background: #334155; }
+          code { background: #0f172a; padding: 3px 7px; border-radius: 5px; color: #38bdf8; font-family: Consolas, monospace; font-size: 13px; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <h1>🚀 SprintBoard Backend Server is Active</h1>
+          <p>The backend REST API and Socket.IO real-time services are operational on <strong>Port 5000</strong>.</p>
+          <p>To access the SprintBoard <strong>Frontend UI</strong>:</p>
+          <ul>
+            <li><strong>Development (Hot-Reload):</strong> Open <a href="http://localhost:5173" style="color: #818cf8; font-weight: 600;">http://localhost:5173</a> (start with <code>npm run client</code> or <code>npm run dev</code>).</li>
+            <li><strong>Single-Port Mode:</strong> Run <code>npm run build</code> in the root folder to bundle the production UI directly onto this port.</li>
+          </ul>
+          <div class="actions">
+            <a class="btn" href="http://localhost:5173">Open Frontend (Port 5173)</a>
+            <a class="btn btn-outline" href="/api/health">Check API Health</a>
+          </div>
+        </div>
+      </body>
+      </html>
+    `);
+  });
 }
 
 // Centralized error handling
